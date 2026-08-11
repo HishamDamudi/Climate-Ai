@@ -1,0 +1,21 @@
+district,state,region,lat,lon,population
+Mumbai,Maharashtra,West,19.0760,72.8777,12442373
+Pune,Maharashtra,West,18.5204,73.8567,3124458
+Nagpur,Maharashtra,Central,21.1458,79.0882,2405421
+Ahmedabad,Gujarat,West,23.0225,72.5714,5570585
+Jaipur,Rajasthan,Northwest,26.9124,75.7873,3073350
+Jodhpur,Rajasthan,Northwest,26.2389,73.0243,1033918
+Delhi,Delhi,North,28.7041,77.1025,16787941
+Lucknow,Uttar Pradesh,North,26.8467,80.9462,2817105
+Kanpur,Uttar Pradesh,North,26.4499,80.3319,2765348
+Patna,Bihar,East,25.5941,85.1376,1684222
+Bhubaneswar,Odisha,East,20.2961,85.8245,837737
+Kolkata,West Bengal,East,22.5726,88.3639,4496694
+Guwahati,Assam,Northeast,26.1445,91.7362,957352
+Chennai,Tamil Nadu,South,13.0827,80.2707,4646732
+Bengaluru,Karnataka,South,12.9716,77.5946,8443675
+Hyderabad,Telangana,South,17.3850,78.4867,6809970
+Vijayawada,Andhra Pradesh,South,16.5062,80.6480,1048240
+Bhopal,Madhya Pradesh,Central,23.2599,77.4126,1798218
+Raipur,Chhattisgarh,Central,21.2514,81.6296,1010087
+Chandigarh,Chandigarh,Northwest,30.7333,76.7794,1055450
