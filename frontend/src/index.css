@@ -1,0 +1,33 @@
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply font-body bg-slate-50 text-slate-800 dark:bg-[#0b1220] dark:text-slate-100 transition-colors duration-300;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { @apply bg-slate-300 dark:bg-slate-700 rounded-full; }
+::-webkit-scrollbar-track { background: transparent; }
+
+.glass-card {
+  @apply bg-white/70 dark:bg-slate-900/60 backdrop-blur-md border border-white/60 dark:border-slate-700/60 rounded-2xl shadow-glass;
+}
+
+.leaflet-container {
+  @apply rounded-2xl;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
