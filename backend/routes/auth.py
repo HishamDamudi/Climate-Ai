@@ -1,6 +1,7 @@
 import secrets
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+from utils.security import is_suspicious
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -17,6 +18,14 @@ class LoginRequest(BaseModel):
 
 @router.post("/login")
 def login(req: LoginRequest):
+    # Pydantic already guarantees username/password are strings (not dicts),
+    # which blocks classic NoSQL operator-injection payloads like
+    # {"password": {"$ne": null}} at the validation layer with a 422 before
+    # this code even runs. This check adds a second layer for
+    # string-based SQLi-style payloads (e.g. username = admin' OR '1'='1).
+    if is_suspicious(req.username) or is_suspicious(req.password):
+        raise HTTPException(status_code=400, detail="Invalid characters in username or password")
+
     if _USERS.get(req.username) != req.password:
         raise HTTPException(status_code=401, detail="Invalid username or password")
     token = secrets.token_hex(16)

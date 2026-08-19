@@ -1,5 +1,6 @@
 import logging
 import os
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -10,26 +11,8 @@ from routes import weather, districts, prediction, alerts, history, records, aut
 logging.basicConfig(level=LOG_LEVEL, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger("climate_ai")
 
-app = FastAPI(
-    title=APP_NAME,
-    version=API_VERSION,
-    description=(
-        "REST API for the Climate Intelligence & Heatwave Monitoring System. "
-        "See /docs for interactive Swagger documentation."
-    ),
-)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-@app.on_event("startup")
-def train_model_if_missing():
+def _train_model_if_missing():
     """On a fresh deploy (e.g. Render) there's no cached model.pkl in the repo.
     Train it once on first boot so the API is usable without a custom build
     script. This takes a few seconds on the free tier."""
@@ -39,6 +22,31 @@ def train_model_if_missing():
         from ml.train import main as train_main
         train_main()
         logger.info("Model training complete.")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    _train_model_if_missing()
+    yield
+
+
+app = FastAPI(
+    title=APP_NAME,
+    version=API_VERSION,
+    description=(
+        "REST API for the Climate Intelligence & Heatwave Monitoring System. "
+        "See /docs for interactive Swagger documentation."
+    ),
+    lifespan=lifespan,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.exception_handler(Exception)
